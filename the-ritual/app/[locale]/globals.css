@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import "tailwind-animate";
+
+@theme {
+  --font-headline: var(--font-headline);
+  --font-body: var(--font-body);
+
+  --color-background: #fdf9f0;
+  --color-primary: #17341c;
+  --color-primary-container: #2d4b31;
+  --color-secondary: #805533;
+  --color-secondary-fixed: #ffdcc5;
+  --color-on-secondary-fixed: #301400;
+  --color-surface-container: #f1eee5;
+  --color-surface-container-low: #f7f3ea;
+  --color-surface-container-high: #ece8df;
+  --color-on-surface: #1c1c17;
+  --color-on-surface-variant: #424841;
+  --color-outline-variant: #c2c8bf;
+  --color-tertiary-fixed: #f5e0bd;
+  --color-error: #ba1a1a;
+
+  --radius-xl: 1.5rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}
+
+.glass-nav {
+  @apply bg-background/80 backdrop-blur-md;
+}
+
+.editorial-shadow {
+  box-shadow: 0px 12px 32px rgba(28, 28, 23, 0.06);
+}
+
+.inner-glow {
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+}

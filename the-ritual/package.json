@@ -1,0 +1,32 @@
+{
+  "name": "the-ritual",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/genai": "^1.29.0",
+    "@tailwindcss/postcss": "^4.2.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.546.0",
+    "next": "^15.5.15",
+    "next-intl": "^4.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-animate": "^0.2.10",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.8.2"
+  }
+}

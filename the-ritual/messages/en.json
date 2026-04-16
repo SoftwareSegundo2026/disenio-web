@@ -1,0 +1,190 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "techniques": "Techniques",
+    "gourds": "Gourds",
+    "heating": "Heating",
+    "search": "Search rituals..."
+  },
+  "Footer": {
+    "rights": "© 2024 The Ritual of Connection. All rights reserved.",
+    "links": {
+      "philosophy": "Philosophy",
+      "heritage": "Heritage",
+      "sustainability": "Sustainability",
+      "contact": "Contact"
+    }
+  },
+  "HomePage": {
+    "hero": {
+      "title": "The Art of <italic>Patience</italic>.",
+      "description": "More than a drink, it's a bridge between souls. Discover the heritage, techniques, and tools of the authentic South American mate ritual.",
+      "cta_start": "START THE JOURNEY",
+      "cta_heritage": "OUR HERITAGE"
+    },
+    "sections": {
+      "method": {
+        "tag": "The Method",
+        "title": "Steeping Techniques",
+        "description": "Master the delicate balance of temperature, angle, and timing to create the perfect \"mountain\" of yerba.",
+        "link": "Learn the craft"
+      },
+      "vessels": {
+        "tag": "The Vessels",
+        "title": "Gourd Types",
+        "description": "From hand-carved gourds to modern ceramics. Find the soul of your ritual.",
+        "link": "Explore gourds"
+      },
+      "water": {
+        "tag": "The Lifeblood",
+        "title": "Water Elements",
+        "description": "Temperature is the invisible key. Discover the precision of traditional kettles and modern thermo-technology.",
+        "link": "Precision guides"
+      }
+    },
+    "steep": {
+      "title": "The Perfect Steep",
+      "description": "Patience is the secret ingredient. Our smart timer ensures your yerba reaches peak flavor without the bitterness of burning.",
+      "cta": "GUIDED BREWING",
+      "status": "Steeping"
+    },
+    "brewing": {
+      "label": "Start Brewing"
+    }
+  },
+  "TechniquesPage": {
+    "header": {
+      "tag": "Steeping Manual",
+      "title": "Ways to Steep",
+      "description": "The mate ritual is not just a drink; it's a choreography of patience and temperature. Discover the traditional styles that define our River Plate identity.",
+      "quote": "\"The water must not boil, it must sing.\""
+    },
+    "secret": {
+      "title": "The Secret: 75°C - 80°C",
+      "description": "Temperature is the soul of the mate. If the water boils, it burns the leaf (yerba) and ruins the aromatic profile, turning it excessively bitter and \"washing\" the flavor quickly.",
+      "steeping_point": {
+        "label": "Steeping Point",
+        "description": "Ideal for extracting the essence without attacking the leaf."
+      },
+      "thermometer": "Thermometer",
+      "thermometer_desc": "Artisanal precision",
+      "flow": "Flow",
+      "flow_desc": "Smooth and constant pour"
+    },
+    "variants": {
+      "title": "Ritual Variants",
+      "amargo": {
+        "title": "Bitter (Amargo)",
+        "description": "The purist. No additives, highlighting the smoky and earthy notes of the mountain yerba."
+      },
+      "dulce": {
+        "title": "Sweet (Dulce)",
+        "description": "Steeped with a pinch of sugar or honey on the yerba before each pour. Gentle and comforting."
+      },
+      "terere": {
+        "title": "Tereré",
+        "description": "The icy version. Ice-cold water, plenty of ice and citrus. Ideal for intense heat days."
+      },
+      "yuyos": {
+        "title": "With Herbs (Yuyos)",
+        "description": "Enriched with medicinal herbs like peperina, cedrón or poleo. A pharmacy in every steep."
+      }
+    },
+    "inclination": {
+      "title": "The Perfect Inclination",
+      "description": "Never wet all the yerba at once. Create a \"mountain\" by tilting the mate to 45°. Pour the water only in the hollow next to the straw (bombilla). This allows the dry yerba to hydrate gradually, extending the life of the ritual.",
+      "cta": "Watch Video Tutorial"
+    },
+    "slow_pour": {
+      "title": "Slow Steeping",
+      "description": "The water stream should be thin and constant to not break the structure of the yerba."
+    }
+  },
+  "GourdsPage": {
+    "header": {
+      "title": "Gourd Types",
+      "description": "The soul of the ritual resides in the vessel. From the organic warmth of the calabaza to the clinical precision of ceramic, each material demands its own care and offers a distinct path to the perfect infusion."
+    },
+    "calabaza": {
+      "tag": "Organic Heritage",
+      "title": "Calabaza Gourd",
+      "description": "The traditional choice. Carved from the Lagenaria siceraria fruit, it absorbs the essence of the yerba over time, creating a unique profile.",
+      "curing": {
+        "title": "Curing",
+        "description": "Fill with used yerba and warm water for 24 hours. Scrape walls gently. Repeat 3 times."
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Rinse with water only. Air dry face-up in a ventilated area to prevent mold."
+      }
+    },
+    "madera": {
+      "title": "Wooden Mate",
+      "description": "Usually Palo Santo or Algarrobo. Offers aromatic wood notes that complement the earthy character of the yerba mate.",
+      "care": {
+        "title": "Wood Care",
+        "description": "Coat inside with butter or oil before first use to prevent cracking from heat expansion."
+      }
+    },
+    "ceramica": {
+      "title": "Ceramic & Glass",
+      "quote": "\"Neutral, clinical, and pure.\"",
+      "curing": "Curing:",
+      "curing_desc": "None required. Wash and use immediately.",
+      "pros": "Pros:",
+      "pros_desc": "Dishwasher safe. No flavor transfer."
+    },
+    "silicona": {
+      "title": "Silicone Mate",
+      "description": "The contemporary nomad's choice. Unbreakable, flexible, and designed for modern life without sacrificing the ritual's heat.",
+      "features": [
+        "BPA Free & Food Grade",
+        "Easy-out leaf disposal",
+        "Heat resistant up to 120°C"
+      ]
+    },
+    "golden_rule": {
+      "title": "The Golden Rule of Maintenance",
+      "description": "Regardless of the material, never leave used yerba in your mate overnight. Humidity is the enemy of wood and calabaza. Respect the vessel, and it will respect your palate for generations.",
+      "no_boiling": "Avoid Boiling Water",
+      "air_dry": "Allow Natural Air-Dry",
+      "no_detergents": "No Harsh Detergents"
+    }
+  },
+  "HeatingPage": {
+    "header": {
+      "tag": "The Lifeblood",
+      "title": "Water Elements",
+      "description": "Water is the silent conductor of the mate ritual. Too cold, and the soul of the yerba remains locked away. Too hot, and you burn the delicate leaves, leaving only bitterness. Precision is not a luxury; it is the foundation."
+    },
+    "golden_range": {
+      "title": "The Golden Range",
+      "optimal": {
+        "temp": "75°C - 80°C",
+        "description": "The sweet spot for traditional yerba mate. Extracts sweetness and body without bitterness."
+      },
+      "oxygenation": {
+        "title": "Oxygenation",
+        "description": "Water should be fresh and never re-boiled. Re-boiling removes oxygen, resulting in a flat, dull infusion."
+      }
+    },
+    "precision": {
+      "title": "Modern Precision",
+      "cta": "VIEW DETAILS"
+    },
+    "fire_kettles": {
+      "title": "Fire Kettles",
+      "description": "The traditional stovetop kettle. Made of stainless steel or aluminum, it requires a trained ear to hear the \"singing\" of the water just before it reaches the boil.",
+      "explore": "Explore traditional kettles"
+    },
+    "termo": {
+      "title": "The Flask (Termo)",
+      "description": "Essential for the nomadic ritual. A high-quality vacuum-insulated flask keeps your water at the precise temperature for hours, whether in the office or the mountains.",
+      "features": {
+        "double_wall": "Double Wall",
+        "bpa_free": "BPA Free",
+        "heat_12h": "12h Heat"
+      }
+    }
+  }
+}

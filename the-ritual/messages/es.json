@@ -1,0 +1,190 @@
+{
+  "Navbar": {
+    "home": "Inicio",
+    "techniques": "Técnicas",
+    "gourds": "Mates",
+    "heating": "Calentado",
+    "search": "Buscar rituales..."
+  },
+  "Footer": {
+    "rights": "© 2024 El Ritual de Conexión. Todos los derechos reservados.",
+    "links": {
+      "philosophy": "Filosofía",
+      "heritage": "Herencia",
+      "sustainability": "Sustentabilidad",
+      "contact": "Contacto"
+    }
+  },
+  "HomePage": {
+    "hero": {
+      "title": "El Arte de la <italic>Paciencia</italic>.",
+      "description": "Más que una bebida, es un puente entre almas. Descubre la herencia, técnicas y herramientas del auténtico ritual del mate sudamericano.",
+      "cta_start": "INICIAR EL VIAJE",
+      "cta_heritage": "NUESTRA HERENCIA"
+    },
+    "sections": {
+      "method": {
+        "tag": "El Método",
+        "title": "Técnicas de Cebado",
+        "description": "Domina el delicado equilibrio de temperatura, ángulo y tiempo para crear la \"montaña\" perfecta de yerba.",
+        "link": "Aprender el oficio"
+      },
+      "vessels": {
+        "tag": "Los Recipientes",
+        "title": "Tipos de Mate",
+        "description": "Desde calabazas talladas a mano hasta cerámicas modernas. Encuentra el alma de tu ritual.",
+        "link": "Explorar mates"
+      },
+      "water": {
+        "tag": "La Esencia",
+        "title": "Elementos para el Agua",
+        "description": "La temperatura es la clave invisible. Descubre la precisión de las pavas tradicionales y la thermo-tecnología moderna.",
+        "link": "Guías de precisión"
+      }
+    },
+    "steep": {
+      "title": "El Reposo Perfecto",
+      "description": "La paciencia es el ingrediente secreto. Nuestro temporizador inteligente asegura que tu yerba alcance el máximo sabor sin el amargor de la quemadura.",
+      "cta": "CEBADO GUIADO",
+      "status": "Repasando"
+    },
+    "brewing": {
+      "label": "Iniciar Cebado"
+    }
+  },
+  "TechniquesPage": {
+    "header": {
+      "tag": "Manual de Cebado",
+      "title": "Formas de Cebar",
+      "description": "El ritual del mate no es solo una bebida; es una coreografía de paciencia y temperatura. Descubre los estilos tradicionales que definen nuestra identidad ríoplatense.",
+      "quote": "\"El agua no debe hervir, debe cantar.\""
+    },
+    "secret": {
+      "title": "El Secreto: 75°C - 80°C",
+      "description": "La temperatura es el alma del mate. Si el agua hierve, quema la hoja (yerba) y arruina el perfil aromático, volviéndolo excesivamente amargo y \"lavando\" el sabor rápidamente.",
+      "steeping_point": {
+        "label": "Punto de Cebado",
+        "description": "Ideal para extraer la esencia sin agredir la hoja."
+      },
+      "thermometer": "Termómetro",
+      "thermometer_desc": "Precisión artesanal",
+      "flow": "Flujo",
+      "flow_desc": "Caída suave y constante"
+    },
+    "variants": {
+      "title": "Variantes del Ritual",
+      "amargo": {
+        "title": "Amargo",
+        "description": "El purista. Sin aditivos, resaltando las notas ahumadas y terrosas de la yerba de monte."
+      },
+      "dulce": {
+        "title": "Dulce",
+        "description": "Cebado con una pizca de azúcar o miel sobre la yerba antes de cada vertido. Suave y reconfortante."
+      },
+      "terere": {
+        "title": "Tereré",
+        "description": "La versión gélida. Agua helada, mucho hielo y cítricos. Ideal para los días de calor intenso."
+      },
+      "yuyos": {
+        "title": "Con Yuyos",
+        "description": "Enriquecido con hierbas medicinales como peperina, cedrón o poleo. Una farmacia en cada cebada."
+      }
+    },
+    "inclination": {
+      "title": "La Inclinación Perfecta",
+      "description": "Nunca mojes toda la yerba de una vez. Crea una \"montañita\" inclinando el mate a 45°. Vierte el agua solo en el hueco junto a la bombilla. Esto permite que la yerba seca se hidrate gradualmente, extendiendo la vida del ritual.",
+      "cta": "Ver Tutorial en Video"
+    },
+    "slow_pour": {
+      "title": "Cebado Lento",
+      "description": "El hilo de agua debe ser fino y constante para no romper la estructura de la yerba."
+    }
+  },
+  "GourdsPage": {
+    "header": {
+      "title": "Tipos de Mate",
+      "description": "El alma del ritual reside en el recipiente. Desde la calidez orgánica de la calabaza hasta la precisión clínica de la cerámica, cada material exige su propio cuidado y ofrece un camino distinto hacia la infusión perfecta."
+    },
+    "calabaza": {
+      "tag": "Herencia Orgánica",
+      "title": "Mate de Calabaza",
+      "description": "La elección tradicional. Tallado del fruto Lagenaria siceraria, absorbe la esencia de la yerba con el tiempo, creando un perfil único.",
+      "curing": {
+        "title": "Curado",
+        "description": "Llenar con yerba usada y agua tibia por 24 horas. Raspar paredes suavemente. Repetir 3 veces."
+      },
+      "maintenance": {
+        "title": "Mantenimiento",
+        "description": "Enjuagar solo con agua. Secar al aire boca arriba en un área ventilada para prevenir moho."
+      }
+    },
+    "madera": {
+      "title": "Mate de Madera",
+      "description": "Generalmente Palo Santo o Algarrobo. Ofrece notas de madera aromática que complementan el carácter terroso de la yerba mate.",
+      "care": {
+        "title": "Cuidado de la Madera",
+        "description": "Untar el interior con manteca o aceite antes del primer uso para evitar grietas por la expansión térmica."
+      }
+    },
+    "ceramica": {
+      "title": "Cerámica & Vidrio",
+      "quote": "\"Neutral, clínico y puro.\"",
+      "curing": "Curado:",
+      "curing_desc": "No requiere. Lavar y usar inmediatamente.",
+      "pros": "Ventajas:",
+      "pros_desc": "Apto para lavavajillas. Sin transferencia de sabor."
+    },
+    "silicona": {
+      "title": "Mate de Silicona",
+      "description": "La elección del nómada contemporáneo. Irrompible, flexible y diseñado para la vida moderna sin sacrificar el calor del ritual.",
+      "features": [
+        "Libre de BPA y Grado Alimenticio",
+        "Fácil eliminación de yerba",
+        "Resistente al calor hasta 120°C"
+      ]
+    },
+    "golden_rule": {
+      "title": "La Regla de Oro del Mantenimiento",
+      "description": "Independientemente del material, nunca dejes yerba usada en tu mate de un día para el otro. La humedad es el enemigo de la madera y la calabaza. Respeta el recipiente, y él respetará tu paladar por generaciones.",
+      "no_boiling": "Evitar Agua Hirviendo",
+      "air_dry": "Secado Natural al Aire",
+      "no_detergents": "Sin Detergentes Agresivos"
+    }
+  },
+  "HeatingPage": {
+    "header": {
+      "tag": "La Esencia",
+      "title": "Elementos para el Agua",
+      "description": "El agua es el conductor silencioso del ritual del mate. Muy fría, y el alma de la yerba permanece bloqueada. Muy caliente, y quemas las hojas delicadas, dejando solo amargor. La precisión no es un lujo; es la base."
+    },
+    "golden_range": {
+      "title": "El Rango Dorado",
+      "optimal": {
+        "temp": "75°C - 80°C",
+        "description": "El punto ideal para la yerba mate tradicional. Extrae dulzor y cuerpo sin amargor."
+      },
+      "oxygenation": {
+        "title": "Oxigenación",
+        "description": "El agua debe ser fresca y nunca re-hervida. Re-hervir elimina el oxígeno, resultando en una infusión plana y sin vida."
+      }
+    },
+    "precision": {
+      "title": "Precisión Moderna",
+      "cta": "VER DETALLES"
+    },
+    "fire_kettles": {
+      "title": "Pavas de Fuego",
+      "description": "La pava tradicional de hornalla. Hecha de acero inoxidable o aluminio, requiere un oído entrenado para escuchar el \"canto\" del agua justo antes de llegar al hervor.",
+      "explore": "Explorar pavas tradicionales"
+    },
+    "termo": {
+      "title": "El Termo",
+      "description": "Esencial para el ritual nómada. Un termo de alta calidad con aislamiento al vacío mantiene el agua a la temperatura precisa durante horas, ya sea en la oficina o en la montaña.",
+      "features": {
+        "double_wall": "Doble Pared",
+        "bpa_free": "Libre de BPA",
+        "heat_12h": "12h de Calor"
+      }
+    }
+  }
+}
