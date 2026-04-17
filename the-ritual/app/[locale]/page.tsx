@@ -137,7 +137,7 @@ export default function Home() {
         <button className="w-16 h-16 bg-primary-container text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform active:scale-95 group">
           <img
             alt={t('brewing.label')}
-            className="w-8 h-8"
+            className="w-8 h-8 invert"
             src="/icons/mate.png"
           />
           <span className="absolute right-full mr-4 bg-on-surface text-background text-xs font-bold px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
