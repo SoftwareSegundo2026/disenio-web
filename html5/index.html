@@ -4,18 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap"
+        rel="stylesheet">
     <title>Mi primer HTML</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body style="background-color: gray; height: 100vh;">
-    <nav style="background-color: black; color: white; padding: 10px;">
-        <a href="#" style="color: white; margin-right: 10px;">Inicio</a>
-        <a href="#" style="color: white; margin-right: 10px;">Acerca de</a>
-        <a href="#" style="color: white;">Contacto</a>
+<style>
+
+    h2 {
+        color: black;
+        background-color: red;
+    }
+</style>
+
+<body>
+    <nav>
+        <a href="#" class="aitemmenu">Inicio</a>
+        <a href="#" class="aitemmenu">Acerca de</a>
+        <a href="#" class="aitemmenu">Contacto</a>
     </nav>
-    <main style="display: flex;">
-        <aside style="background-color: lightgray; padding: 10px; float: left; width: 200px;">
-            <h2>Menú</h2>
+    <main>
+        <aside>
+            <h2 class="h2menu">Menú</h2>
             <ul>
                 <li><a href="#">Opción 1</a></li>
                 <li><a href="#">Opción 2</a></li>
@@ -23,30 +37,29 @@
             </ul>
         </aside>
 
-        <section style="padding: 10px; width: 100%;">
-            <h1 style="background-color: burlywood;">
+        <section>
+            <h1>
                 Hola mundo del HTML5
             </h1>
-            <h2>Daniel</h2>
-            <details style="margin-top: 20px;">
+            <h2 style="color: aqua;">Daniel</h2>
+            <details>
                 <summary>Más información</summary>
                 <p>Aquí puedes encontrar más detalles sobre el tema.</p>
             </details>
             <div>
                 Ingresa tu nombre
-                <input type="text" placeholder="Escribe algo aquí..."
-                    style="margin-top: 10px; padding: 5px; width: 20%;">
-                <input type="password" style="margin-top: 10px; padding: 5px; width: 20%;">
-                <input type="button" value="Enviar" style="margin-top: 10px; padding: 5px 10px;">
+                <input type="text" placeholder="Escribe algo aquí...">
+                <input type="password">
+                <input type="button" value="Enviar">
             </div>
         </section>
 
-        <aside style="background-color: lightgray; padding: 10px; float: right; width: 200px;">
-            <h2>Noticias</h2>
+        <aside>
+            <h2 id="noticias" class="h2menu">Noticias</h2>
             <p>Últimas noticias aquí.</p>
         </aside>
     </main>
-    <footer style="background-color: black; color: white; text-align: center; padding: 10px; margin-top: 20px;">
+    <footer>
         Este es el pie de página de mi sitio web.
     </footer>
 </body>

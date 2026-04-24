@@ -1,0 +1,93 @@
+:root {
+    --primary-color: blue;
+    --secondary-color: rgb(225, 232, 42);
+}
+
+html {
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+body {
+    background-color: gray;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    background-color: black;
+    color: var(--secondary-color, white);
+    padding: 10px;
+}
+
+h1 {
+    color: var(--secondary-color, white);
+    font-family: 'Space Grotesk', Arial, sans-serif;
+    background-color: burlywood;
+}
+
+main {
+    display: flex;
+}
+
+aside {
+    background-color: lightgray;
+    padding: 10px;
+    width: 200px;
+}
+
+section {
+    padding: 10px;
+    width: 100%;
+}
+
+details {
+    margin-top: 20px;
+}
+
+div {
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    margin-top: 10px;
+    padding: 5px;
+    width: 20%;
+}
+
+input[type="button"] {
+    margin-top: 10px;
+    padding: 15px 20px;
+    font-size: 20px;
+    background-color: blue;
+    color: var(--secondary-color, white);
+    border: none;
+    border-radius: 10px;
+}
+
+footer {
+    background-color: black;
+    color: var(--secondary-color, white);
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+#noticias {
+    background-color: green;
+    color: blue;
+}
+
+.h2menu {
+    background-color: blue;
+    color: var(--secondary-color, white);
+}
+
+.aitemmenu {
+    color: var(--secondary-color, white);
+    margin-right: 10px;
+    font-size: 25px;
+}
