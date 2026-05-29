@@ -104,7 +104,7 @@ export default function Home() {
 
       {!cargando && !error && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {datos.map((character) => (
+          {datos.map((character, index) => (
             <article
               key={character.id}
               className="rounded-lg bg-white p-4 shadow-md dark:bg-gray-800"
@@ -114,6 +114,7 @@ export default function Home() {
                 alt={character.name}
                 width={300}
                 height={300}
+                loading={index === 0 ? "eager" : "lazy"}
                 className="mb-4 rounded-lg"
               />
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">

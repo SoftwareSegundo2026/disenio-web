@@ -5,6 +5,8 @@
   --foreground: #171717;
   --primary-color: blue;
   --secondary-color: rgb(225, 232, 42);
+  --font-geist-sans: Arial, Helvetica, sans-serif;
+  --font-geist-mono: "Courier New", Courier, monospace;
 }
 
 @theme inline {

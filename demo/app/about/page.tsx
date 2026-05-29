@@ -1,3 +1,4 @@
+import AboutIdNavigator from "@/components/AboutIdNavigator";
 import HomeButton from "@/components/HomeButton";
 
 export default function About() {
@@ -8,6 +9,7 @@ export default function About() {
         <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
           Somos una empresa dedicada a proporcionar soluciones innovadoras en el ámbito de la tecnología. Nuestro equipo está compuesto por expertos apasionados que trabajan arduamente para ofrecer productos y servicios de alta calidad a nuestros clientes.
         </p>
+        <AboutIdNavigator />
         <HomeButton />
       </main>
     </div>
