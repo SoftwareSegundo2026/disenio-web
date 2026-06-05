@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAllProtected, getIsAdmin, getTotalCountProtected, remove, update } from "@/lib/db";
+import { getAllProtected, getTotalCountProtected, remove, update, getIsAdmin } from "@/lib/db";
 import type { ApiUser } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 import Pagination from "@/components/Pagination";
 import ResetPasswordModal from "@/components/ResetPasswordModal";
 import Swal from "sweetalert2";
@@ -18,6 +17,7 @@ export default function UsersList() {
   const [resetUserId, setResetUserId] = useState<number | null>(null);
   const [resetUserName, setResetUserName] = useState("");
   const rowsPerPage = config.rowsPerPage;
+  const isAdmin = getIsAdmin();
 
   const loadUsers = async (p: number) => {
     try {
@@ -82,13 +82,13 @@ export default function UsersList() {
           <h2 className="font-headline-lg text-headline-lg text-on-surface">{t("page.users")}</h2>
           <p className="text-on-surface-variant">{t("page.users_sub")}</p>
         </div>
-        <RequireAuth>
+        {isAdmin && (
           <Link href="/users/new">
             <button className="bg-primary-container hover:bg-primary-container/90 text-on-primary font-bold py-2 px-stack-lg rounded-lg flex items-center gap-2 cursor-pointer transition-all active:scale-95">
               <span className="material-symbols-outlined text-sm">person_add</span>{t("page.add_user")}
             </button>
           </Link>
-        </RequireAuth>
+        )}
       </div>
 
       <div className="bg-surface-medium surface-rim rounded-xl overflow-hidden">
@@ -138,30 +138,30 @@ export default function UsersList() {
                   </td>
                   <td className="px-gutter py-stack-md text-right">
                     <div className="flex justify-end gap-2">
-                      <RequireAuth>
+                      {isAdmin && (
                         <button onClick={() => toggleUserStatus(user)} disabled={user.username === "admin"}
                           className={`p-1 transition-colors cursor-pointer ${user.disabled ? "text-success-vibrant hover:text-success-vibrant/80" : "text-warning-vibrant hover:text-warning-vibrant/80"} disabled:opacity-30`}
                           title={t(user.disabled ? "list.activate" : "list.deactivate")}>
                           <span className="material-symbols-outlined text-xl">{user.disabled ? "check_circle" : "pause_circle"}</span>
                         </button>
-                      </RequireAuth>
-                      <RequireAuth>
+                      )}
+                      {isAdmin && (
                         <Link href={`/users/${user.user_id || ""}/edit`}>
                           <button className="p-1 hover:text-secondary transition-colors cursor-pointer" title={t("list.edit")}><span className="material-symbols-outlined text-xl">edit</span></button>
                         </Link>
-                      </RequireAuth>
-                      <RequireAuth>
+                      )}
+                      {isAdmin && (
                         <button onClick={() => handleDelete(user)} disabled={user.username === "admin"}
                           className="p-1 hover:text-error-vibrant disabled:opacity-30 disabled:hover:text-on-surface-variant transition-colors cursor-pointer" title={t("list.delete")}>
                           <span className="material-symbols-outlined text-xl">delete</span>
                         </button>
-                      </RequireAuth>
-                      <RequireAuth>
+                      )}
+                      {isAdmin && (
                         <button onClick={() => { setResetUserId(user.user_id ?? null); setResetUserName(user.full_name || user.username); }}
                           className="p-1 hover:text-warning-vibrant transition-colors cursor-pointer" title={t("password.reset_btn")}>
                           <span className="material-symbols-outlined text-xl">key</span>
                         </button>
-                      </RequireAuth>
+                      )}
                     </div>
                   </td>
                 </tr>

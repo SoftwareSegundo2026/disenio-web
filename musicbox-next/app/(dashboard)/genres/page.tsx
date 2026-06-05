@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAll, getTotalCount, remove } from "@/lib/db";
+import { getAll, getTotalCount, remove, getIsAdmin } from "@/lib/db";
 import type { ApiGenre } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 import Pagination from "@/components/Pagination";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
@@ -15,6 +14,7 @@ export default function GenresList() {
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const rowsPerPage = config.rowsPerPage;
+  const isAdmin = getIsAdmin();
 
   const loadGenres = async (p: number) => {
     const list = await getAll<ApiGenre>("genres", p * rowsPerPage, rowsPerPage);
@@ -64,13 +64,13 @@ export default function GenresList() {
           <h2 className="font-headline-lg text-headline-lg text-on-surface">{t("page.genres")}</h2>
           <p className="text-on-surface-variant">{t("page.genres_sub")}</p>
         </div>
-        <RequireAuth>
+        {isAdmin && (
           <Link href="/genres/new">
             <button className="bg-primary-container hover:bg-primary-container/90 text-on-primary font-bold py-2 px-stack-lg rounded-lg flex items-center gap-2 cursor-pointer transition-all active:scale-95">
               <span className="material-symbols-outlined text-sm">library_add</span>{t("page.add_genre")}
             </button>
           </Link>
-        </RequireAuth>
+        )}
       </div>
 
       <div className="bg-surface-medium surface-rim rounded-xl overflow-hidden">
@@ -100,14 +100,14 @@ export default function GenresList() {
                       <Link href={`/genres/${g.GenreId}`}>
                         <button className="p-1 hover:text-primary transition-colors cursor-pointer" title={t("list.view_details")}><span className="material-symbols-outlined text-xl">visibility</span></button>
                       </Link>
-                      <RequireAuth>
+                      {isAdmin && (
                         <Link href={`/genres/${g.GenreId}/edit`}>
                           <button className="p-1 hover:text-secondary transition-colors cursor-pointer" title={t("list.edit")}><span className="material-symbols-outlined text-xl">edit</span></button>
                         </Link>
-                      </RequireAuth>
-                      <RequireAuth>
+                      )}
+                      {isAdmin && (
                         <button onClick={() => handleDelete(g)} className="p-1 hover:text-error-vibrant transition-colors cursor-pointer" title={t("list.delete")}><span className="material-symbols-outlined text-xl">delete</span></button>
-                      </RequireAuth>
+                      )}
                     </div>
                   </td>
                 </tr>

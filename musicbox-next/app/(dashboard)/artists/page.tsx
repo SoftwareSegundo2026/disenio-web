@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAll, getTotalCount, remove } from "@/lib/db";
+import { getAll, getTotalCount, remove, getIsAdmin } from "@/lib/db";
 import type { ApiArtist } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 import Pagination from "@/components/Pagination";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
@@ -15,6 +14,7 @@ export default function ArtistsList() {
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const rowsPerPage = config.rowsPerPage;
+  const isAdmin = getIsAdmin();
 
   const loadArtists = async (p: number) => {
     const list = await getAll<ApiArtist>("artists", p * rowsPerPage, rowsPerPage);
@@ -64,14 +64,14 @@ export default function ArtistsList() {
           <h2 className="font-headline-lg text-headline-lg text-on-surface">{t("page.artists")}</h2>
           <p className="text-on-surface-variant">{t("page.artists_sub")}</p>
         </div>
-        <RequireAuth>
+        {isAdmin && (
           <Link href="/artists/new">
             <button className="bg-primary-container hover:bg-primary-container/90 text-on-primary font-bold py-2 px-stack-lg rounded-lg flex items-center gap-2 cursor-pointer transition-all active:scale-95">
               <span className="material-symbols-outlined text-sm">person_add</span>
               {t("page.add_artist")}
             </button>
           </Link>
-        </RequireAuth>
+        )}
       </div>
 
       <div className="bg-surface-medium surface-rim rounded-xl overflow-hidden">
@@ -103,18 +103,18 @@ export default function ArtistsList() {
                           <span className="material-symbols-outlined text-xl">visibility</span>
                         </button>
                       </Link>
-                      <RequireAuth>
+                      {isAdmin && (
                         <Link href={`/artists/${artist.ArtistId}/edit`}>
                           <button className="p-1 hover:text-secondary transition-colors cursor-pointer" title={t("list.edit")}>
                             <span className="material-symbols-outlined text-xl">edit</span>
                           </button>
                         </Link>
-                      </RequireAuth>
-                      <RequireAuth>
+                      )}
+                      {isAdmin && (
                         <button onClick={() => handleDelete(artist)} className="p-1 hover:text-error-vibrant transition-colors cursor-pointer" title={t("list.delete")}>
                           <span className="material-symbols-outlined text-xl">delete</span>
                         </button>
-                      </RequireAuth>
+                      )}
                     </div>
                   </td>
                 </tr>

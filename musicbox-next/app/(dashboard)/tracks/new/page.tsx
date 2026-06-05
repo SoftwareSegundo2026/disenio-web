@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { getAll, create } from "@/lib/db";
 import type { ApiAlbum, ApiGenre } from "@/lib/db";
+import { t } from "@/lib/i18n";
 
 function TrackFormContent() {
   const router = useRouter();
@@ -50,26 +51,26 @@ function TrackFormContent() {
     setError("");
 
     if (!name.trim()) {
-      setError("Track name is required");
+      setError(t("tracks.new.name_required"));
       return;
     }
 
     const minVal = parseInt(minutes, 10);
     const secVal = parseInt(seconds, 10);
     if (isNaN(minVal) || isNaN(secVal) || secVal < 0 || secVal > 59) {
-      setError("Invalid duration format (seconds must be between 0 and 59)");
+      setError(t("tracks.new.invalid_duration"));
       return;
     }
 
     const priceVal = parseFloat(unitPrice);
     if (isNaN(priceVal) || priceVal < 0) {
-      setError("Invalid unit price");
+      setError(t("tracks.new.invalid_price"));
       return;
     }
 
     const sizeVal = parseFloat(fileSizeMB);
     if (isNaN(sizeVal) || sizeVal < 0) {
-      setError("Invalid file size");
+      setError(t("tracks.new.invalid_size"));
       return;
     }
 
@@ -96,7 +97,7 @@ function TrackFormContent() {
         router.push("/tracks");
       }
     } catch {
-      setError("Failed to create track. Please try again.");
+      setError(t("tracks.new.error"));
       setIsSubmitting(false);
     }
   };
@@ -104,48 +105,48 @@ function TrackFormContent() {
   return (
     <div className="max-w-2xl mx-auto space-y-stack-md animate-fadeIn">
       <div className="flex items-center gap-2 text-sm text-on-surface-variant mb-4 font-label-caps">
-        <Link href="/tracks" className="hover:text-primary transition-colors">Tracks</Link>
+        <Link href="/tracks" className="hover:text-primary transition-colors">{t("nav.tracks")}</Link>
         <span className="text-primary font-bold">/</span>
-        <span className="text-on-surface opacity-75">New Track</span>
+        <span className="text-on-surface opacity-75">{t("tracks.new.breadcrumb")}</span>
       </div>
 
       <div className="bg-surface-medium surface-rim p-gutter rounded-xl">
         <div className="border-b border-outline-variant/20 pb-stack-md mb-stack-lg">
-          <h2 className="text-headline-lg font-bold text-on-surface">Add New Track</h2>
-          <p className="text-on-surface-variant text-sm mt-1">Publish a new song file and configure its details</p>
+          <h2 className="text-headline-lg font-bold text-on-surface">{t("tracks.new.title")}</h2>
+          <p className="text-on-surface-variant text-sm mt-1">{t("tracks.new.subtitle")}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-stack-md">
           <div className="space-y-unit">
-            <label htmlFor="track-name" className="block text-sm font-semibold text-on-surface">Track Name</label>
+            <label htmlFor="track-name" className="block text-sm font-semibold text-on-surface">{t("tracks.new.name_label")}</label>
             <input type="text" id="track-name" value={name} onChange={(e) => setName(e.target.value)}
               className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all"
-              placeholder="e.g. Midnight City (Remix), Deep Sea Blue" />
+              placeholder={t("tracks.new.name_placeholder")} />
           </div>
 
           <div className="space-y-unit">
-            <label htmlFor="track-composer" className="block text-sm font-semibold text-on-surface">Composer</label>
+            <label htmlFor="track-composer" className="block text-sm font-semibold text-on-surface">{t("tracks.new.composer_label")}</label>
             <input type="text" id="track-composer" value={composer} onChange={(e) => setComposer(e.target.value)}
               className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all"
-              placeholder="Composer name" />
+              placeholder={t("tracks.new.composer_placeholder")} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
             <div className="space-y-unit">
-              <label htmlFor="track-album" className="block text-sm font-semibold text-on-surface">Album</label>
+              <label htmlFor="track-album" className="block text-sm font-semibold text-on-surface">{t("list.album")}</label>
               <select id="track-album" value={albumId} onChange={(e) => setAlbumId(e.target.value)}
                 className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all cursor-pointer">
-                <option value="">None (Single Release)</option>
+                <option value="">{t("tracks.new.no_album_option")}</option>
                 {albums.map((album) => (
                   <option key={album.AlbumId} value={album.AlbumId}>{album.Title}</option>
                 ))}
               </select>
             </div>
             <div className="space-y-unit">
-              <label htmlFor="track-genre" className="block text-sm font-semibold text-on-surface">Genre</label>
+              <label htmlFor="track-genre" className="block text-sm font-semibold text-on-surface">{t("list.genre")}</label>
               <select id="track-genre" value={genreId} onChange={(e) => setGenreId(e.target.value)}
                 className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all cursor-pointer">
-                <option value="">None</option>
+                <option value="">{t("tracks.new.no_genre_option")}</option>
                 {genres.map((genre) => (
                   <option key={genre.GenreId} value={genre.GenreId}>{genre.Name}</option>
                 ))}
@@ -155,7 +156,7 @@ function TrackFormContent() {
 
           <div className="grid grid-cols-3 gap-gutter">
             <div className="space-y-unit">
-              <label className="block text-sm font-semibold text-on-surface">Duration (MM:SS)</label>
+              <label className="block text-sm font-semibold text-on-surface">{t("tracks.new.duration_label")}</label>
               <div className="flex gap-1 items-center bg-surface-high border border-outline-variant/30 rounded-lg px-2">
                 <input type="number" min="0" value={minutes} onChange={(e) => setMinutes(e.target.value)}
                   className="w-full bg-transparent border-none py-2 text-center text-body-md text-on-surface focus:ring-0 focus:outline-none" placeholder="Min" />
@@ -165,12 +166,12 @@ function TrackFormContent() {
               </div>
             </div>
             <div className="space-y-unit">
-              <label htmlFor="track-size" className="block text-sm font-semibold text-on-surface">Size (MB)</label>
+              <label htmlFor="track-size" className="block text-sm font-semibold text-on-surface">{t("tracks.new.size_label")}</label>
               <input type="number" id="track-size" step="0.1" min="0" value={fileSizeMB} onChange={(e) => setFileSizeMB(e.target.value)}
                 className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all text-center" />
             </div>
             <div className="space-y-unit">
-              <label htmlFor="track-price" className="block text-sm font-semibold text-on-surface">Price ($)</label>
+              <label htmlFor="track-price" className="block text-sm font-semibold text-on-surface">{t("tracks.new.price_label")}</label>
               <input type="number" id="track-price" step="0.01" min="0" value={unitPrice} onChange={(e) => setUnitPrice(e.target.value)}
                 className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all text-center" />
             </div>
@@ -179,9 +180,9 @@ function TrackFormContent() {
           {error && <p className="text-error-vibrant text-xs pt-2">{error}</p>}
 
           <div className="flex justify-end gap-3 pt-stack-md border-t border-outline-variant/20">
-            <button type="button" onClick={() => router.back()} className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all active:scale-95">Cancel</button>
+            <button type="button" onClick={() => router.back()} className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all active:scale-95">{t("confirm.cancel")}</button>
             <button type="submit" disabled={isSubmitting} className="px-6 py-2 bg-primary-container hover:bg-primary-container/90 disabled:opacity-50 text-on-primary font-bold rounded-lg cursor-pointer transition-all active:scale-95 flex items-center gap-2">
-              {isSubmitting ? "Creating..." : "Create Track"}
+              {isSubmitting ? t("tracks.new.submitting") : t("tracks.new.submit")}
             </button>
           </div>
         </form>
@@ -192,7 +193,7 @@ function TrackFormContent() {
 
 export default function NewTrack() {
   return (
-    <Suspense fallback={<div className="text-center py-10 font-label-caps">Loading form...</div>}>
+    <Suspense fallback={<div className="text-center py-10 font-label-caps">{t("loading")}</div>}>
       <TrackFormContent />
     </Suspense>
   );

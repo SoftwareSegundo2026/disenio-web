@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getById, update, getImageUrl, uploadImage } from "@/lib/db";
 import type { ApiArtist } from "@/lib/db";
+import { t } from "@/lib/i18n";
 
 export default function EditArtist({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -43,7 +44,7 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
     setError("");
 
     if (!name.trim()) {
-      setError("Artist name is required");
+      setError(t("artists.edit.name_required"));
       return;
     }
 
@@ -58,7 +59,7 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
 
       router.push("/artists");
     } catch {
-      setError("Failed to update artist. Please try again.");
+      setError(t("artists.edit.error"));
       setIsSubmitting(false);
     }
   };
@@ -68,17 +69,17 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
   return (
     <div className="max-w-2xl mx-auto space-y-stack-md animate-fadeIn">
       <div className="flex items-center gap-2 text-sm text-on-surface-variant mb-4 font-label-caps">
-        <Link href="/artists" className="hover:text-primary transition-colors">Artists</Link>
+        <Link href="/artists" className="hover:text-primary transition-colors">{t("nav.artists")}</Link>
         <span className="text-primary font-bold">/</span>
-        <span className="text-on-surface opacity-75">{name || "Artist Detail"}</span>
+        <span className="text-on-surface opacity-75">{name || t("artists.edit.detail_fallback")}</span>
         <span className="text-primary font-bold">/</span>
-        <span className="text-on-surface opacity-75">Edit</span>
+        <span className="text-on-surface opacity-75">{t("artists.edit.breadcrumb")}</span>
       </div>
 
       <div className="bg-surface-medium surface-rim p-gutter rounded-xl">
         <div className="border-b border-outline-variant/20 pb-stack-md mb-stack-lg">
-          <h2 className="text-headline-lg font-bold text-on-surface">Edit Artist</h2>
-          <p className="text-on-surface-variant text-sm mt-1">Modify artist credentials and catalog profile</p>
+          <h2 className="text-headline-lg font-bold text-on-surface">{t("artists.edit.title")}</h2>
+          <p className="text-on-surface-variant text-sm mt-1">{t("artists.edit.subtitle")}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-stack-lg">
@@ -93,7 +94,7 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
             )}
             <div className="flex-1">
               <label htmlFor="artist-image" className="block text-sm font-semibold text-on-surface mb-1">
-                Artist Image
+                {t("artists.edit.image_label")}
               </label>
               <input
                 type="file"
@@ -106,24 +107,24 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
           </div>
 
           <div className="space-y-unit">
-            <label htmlFor="artist-name" className="block text-sm font-semibold text-on-surface">Artist Name</label>
+            <label htmlFor="artist-name" className="block text-sm font-semibold text-on-surface">{t("artists.edit.name_label")}</label>
             <input
               type="text"
               id="artist-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={`w-full bg-surface-high border ${error ? "border-error-vibrant" : "border-outline-variant/30"} rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all`}
-              placeholder="e.g. Elena Void, The Midnight, M83"
+              placeholder={t("artists.edit.name_placeholder")}
             />
             {error && <p className="text-error-vibrant text-xs mt-1">{error}</p>}
           </div>
 
           <div className="flex justify-end gap-3 pt-stack-md border-t border-outline-variant/20">
             <Link href="/artists">
-              <button type="button" className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all active:scale-95">Cancel</button>
+              <button type="button" className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all active:scale-95">{t("confirm.cancel")}</button>
             </Link>
             <button type="submit" disabled={isSubmitting} className="px-6 py-2 bg-primary-container hover:bg-primary-container/90 disabled:opacity-50 text-on-primary font-bold rounded-lg cursor-pointer transition-all active:scale-95 flex items-center gap-2">
-              {isSubmitting ? "Saving..." : "Save Changes"}
+              {isSubmitting ? t("artists.edit.submitting") : t("artists.edit.submit")}
             </button>
           </div>
         </form>

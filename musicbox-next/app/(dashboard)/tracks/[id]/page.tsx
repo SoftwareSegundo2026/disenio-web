@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { getById, remove, getToken } from "@/lib/db";
 import { t } from "@/lib/i18n";
 import type { ApiTrack, ApiAlbum, ApiArtist, ApiGenre } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 import DeezerPlayer from "@/components/DeezerPlayer";
+import { getIsAdmin } from "@/lib/db";
 
 export default function TrackDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -19,6 +19,7 @@ export default function TrackDetail({ params }: { params: Promise<{ id: string }
   const [artist, setArtist] = useState<ApiArtist | null>(null);
   const [genre, setGenre] = useState<ApiGenre | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const isAdmin = getIsAdmin();
 
   useEffect(() => {
     const loadData = async () => {
@@ -180,7 +181,7 @@ export default function TrackDetail({ params }: { params: Promise<{ id: string }
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all">Cancel</button>
-              <RequireAuth><button onClick={handleDelete} className="px-4 py-2 bg-error-vibrant hover:bg-error-vibrant/90 text-white font-semibold rounded-lg cursor-pointer transition-all">Delete</button></RequireAuth>
+              {isAdmin && <button onClick={handleDelete} className="px-4 py-2 bg-error-vibrant hover:bg-error-vibrant/90 text-white font-semibold rounded-lg cursor-pointer transition-all">Delete</button>}
             </div>
           </div>
         </div>

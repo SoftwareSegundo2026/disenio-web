@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getById, getAll, remove } from "@/lib/db";
 import type { ApiGenre, ApiTrack, ApiAlbum } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 import { t } from "@/lib/i18n";
+import { getIsAdmin } from "@/lib/db";
 
 export default function GenreDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -17,6 +17,7 @@ export default function GenreDetail({ params }: { params: Promise<{ id: string }
   const [tracks, setTracks] = useState<ApiTrack[]>([]);
   const [albumsMap, setAlbumsMap] = useState<Record<string, string>>({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const isAdmin = getIsAdmin();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -144,7 +145,7 @@ export default function GenreDetail({ params }: { params: Promise<{ id: string }
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all">{t("confirm.cancel")}</button>
-              <RequireAuth><button onClick={handleDelete} className="px-4 py-2 bg-error-vibrant hover:bg-error-vibrant/90 text-white font-semibold rounded-lg cursor-pointer transition-all">{t("confirm.delete")}</button></RequireAuth>
+              {isAdmin && <button onClick={handleDelete} className="px-4 py-2 bg-error-vibrant hover:bg-error-vibrant/90 text-white font-semibold rounded-lg cursor-pointer transition-all">{t("confirm.delete")}</button>}
             </div>
           </div>
         </div>

@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getById, getAll, remove, getImageUrl } from "@/lib/db";
 import type { ApiAlbum, ApiArtist, ApiTrack, ApiGenre } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 import { t } from "@/lib/i18n";
+import { getIsAdmin } from "@/lib/db";
 
 export default function AlbumDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -18,6 +18,7 @@ export default function AlbumDetail({ params }: { params: Promise<{ id: string }
   const [tracks, setTracks] = useState<ApiTrack[]>([]);
   const [genresMap, setGenresMap] = useState<Record<number, string>>({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const isAdmin = getIsAdmin();
 
   useEffect(() => {
     (async () => {
@@ -105,13 +106,13 @@ export default function AlbumDetail({ params }: { params: Promise<{ id: string }
           <h3 className="text-headline-md font-semibold text-on-surface flex items-center gap-2">
             <span className="material-symbols-outlined text-primary">audiotrack</span>{t("album.tracks", { count: tracks.length })}
           </h3>
-          <RequireAuth>
+          {isAdmin && (
             <Link href={`/tracks/new?albumId=${id}`}>
               <button className="bg-primary-container hover:bg-primary-container/90 text-on-primary font-bold py-1.5 px-4 rounded-lg flex items-center gap-2 cursor-pointer transition-all text-sm active:scale-95">
                 <span className="material-symbols-outlined text-sm">library_add</span>{t("album.add_track")}
               </button>
             </Link>
-          </RequireAuth>
+          )}
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
@@ -167,7 +168,7 @@ export default function AlbumDetail({ params }: { params: Promise<{ id: string }
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 bg-surface-high hover:bg-surface-high/80 text-on-surface rounded-lg cursor-pointer transition-all">{t("confirm.cancel")}</button>
-              <RequireAuth><button onClick={handleDelete} className="px-4 py-2 bg-error-vibrant hover:bg-error-vibrant/90 text-white font-semibold rounded-lg cursor-pointer transition-all">{t("confirm.delete")}</button></RequireAuth>
+              {isAdmin && <button onClick={handleDelete} className="px-4 py-2 bg-error-vibrant hover:bg-error-vibrant/90 text-white font-semibold rounded-lg cursor-pointer transition-all">{t("confirm.delete")}</button>}
             </div>
           </div>
         </div>

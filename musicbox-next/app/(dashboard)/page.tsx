@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getAll, getAllProtected, getToken, getIsAdmin, getActivities, getStoredFullName } from "@/lib/db";
 import { t, formatDate } from "@/lib/i18n";
 import type { ApiArtist, ApiAlbum, ApiTrack, ApiUser, ApiActivity } from "@/lib/db";
-import RequireAuth from "@/components/RequireAuth";
 
 interface Stats {
   artists: number;

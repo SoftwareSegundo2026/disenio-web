@@ -36,18 +36,17 @@ export default function DeezerPlayer({ trackName, artistName }: DeezerPlayerProp
   if (track) {
     return (
       <div>
-        <div className="relative w-full" style={{ aspectRatio: "16 / 9" }}>
-          <iframe
-            src={`https://widget.deezer.com/widget/auto/track/${track.id}`}
-            className="absolute inset-0 w-full h-full rounded-lg"
-            frameBorder={0}
-            allow="encrypted-media; clipboard-write"
-            title={`Deezer player - ${track.title}`}
-          />
-        </div>
+        <iframe
+          src={`https://widget.deezer.com/widget/auto/track/${track.id}?autoplay=true`}
+          className="w-full rounded-lg"
+          style={{ height: 90 }}
+          frameBorder={0}
+          allow="encrypted-media; clipboard-write; autoplay"
+          title={`Deezer player - ${track.title}`}
+        />
         <button
           onClick={() => setTrack(null)}
-          className="mt-2 text-xs text-on-surface-variant hover:text-on-surface cursor-pointer underline"
+          className="mt-1 text-xs text-on-surface-variant hover:text-on-surface cursor-pointer underline"
         >
           {t("track.close_player")}
         </button>
