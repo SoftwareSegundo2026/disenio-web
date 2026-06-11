@@ -1,44 +1,30 @@
-import { config } from "./config";
+import { config } from './config';
+import { useAuth } from '@/store/auth';
 
 const API_BASE = config.apiBase;
 const API_ROOT = config.apiRoot;
 
-export function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("token");
-}
-
-export function setToken(token: string | null): void {
-  if (typeof window !== "undefined") {
-    if (token) localStorage.setItem("token", token);
-    else localStorage.removeItem("token");
-  }
-}
-
-export function getTokenValue(): string | null {
-  return getToken();
+async function getToken(): Promise<string | null> {
+  return useAuth.getState().token;
 }
 
 async function request<T>(path: string, options: RequestInit = {}, auth = false): Promise<T> {
-  const method = (options.method || "GET").toUpperCase();
-  const isMutation = method === "POST" || method === "PATCH" || method === "PUT" || method === "DELETE";
+  const method = (options.method || 'GET').toUpperCase();
+  const isMutation = method === 'POST' || method === 'PATCH' || method === 'PUT' || method === 'DELETE';
   const headers: Record<string, string> = {
     ...(options.headers as Record<string, string>),
   };
   if (isMutation || auth) {
-    headers["Content-Type"] = "application/json";
-    const token = getToken();
+    headers['Content-Type'] = 'application/json';
+    const token = await getToken();
     if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers['Authorization'] = `Bearer ${token}`;
     }
   }
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-  if (res.status === 401 && getToken()) {
-    logout();
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("auth:expired"));
-    }
-    throw new Error("Session expired");
+  if (res.status === 401 && (await getToken())) {
+    useAuth.getState().logout();
+    throw new Error('Session expired');
   }
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
@@ -58,17 +44,6 @@ export interface TokenResponse {
   token_type: string;
 }
 
-export function getStoredUserId(): number | null {
-  if (typeof window === "undefined") return null;
-  const v = localStorage.getItem("user_id");
-  return v ? parseInt(v, 10) : null;
-}
-
-export function getStoredFullName(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("full_name");
-}
-
 export interface ApiArtist {
   ArtistId: number;
   Name: string;
@@ -85,7 +60,7 @@ export interface ApiAlbum {
 
 export function getImageUrl(imagePath: string | null | undefined): string | null {
   if (!imagePath) return null;
-  if (imagePath.startsWith("http")) return imagePath;
+  if (imagePath.startsWith('http')) return imagePath;
   return `${API_ROOT}${imagePath}`;
 }
 
@@ -126,48 +101,38 @@ export interface ApiActivity {
   detail: string | null;
 }
 
-export function getIsAdmin(): boolean {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem("is_admin") === "true";
-}
-
 export async function fetchCurrentUser(): Promise<ApiUser> {
-  return request<ApiUser>("/users/me", {}, true);
+  return request<ApiUser>('/users/me', {}, true);
 }
 
 function timeout(ms: number): Promise<never> {
-  return new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms));
+  return new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms));
 }
 
 export async function loginApi(credentials: UserLogin): Promise<string> {
-  const res = await request<TokenResponse>("/users/token", {
-    method: "POST",
+  const res = await request<TokenResponse>('/auth/token', {
+    method: 'POST',
     body: JSON.stringify(credentials),
   });
-  setToken(res.access_token);
-  await Promise.race([storeCurrentUser(), timeout(15000)]).catch(() => {});
+  await useAuth.getState().setToken(res.access_token);
+  await storeCurrentUser().catch(() => {});
   return res.access_token;
 }
 
 export async function storeCurrentUser(): Promise<void> {
   try {
     const user = await fetchCurrentUser();
-    localStorage.setItem("is_admin", user.is_admin ? "true" : "false");
-    localStorage.setItem("user_id", String(user.user_id ?? ""));
-    localStorage.setItem("username", user.username || "");
-    localStorage.setItem("full_name", user.full_name || "");
-    localStorage.setItem("email", user.email || "");
+    useAuth.getState().setUser(user);
     return;
   } catch {
-    // /users/me failed — fallback to users list
+    // fallback
   }
 
-  // fallback: parse username from JWT and find user in /users (raw fetch, no auto-logout)
-  const token = getToken();
+  const token = useAuth.getState().token;
   if (!token) return;
-  let username = "";
+  let username = '';
   try {
-    username = JSON.parse(atob(token.split(".")[1])).sub ?? "";
+    username = JSON.parse(atob(token.split('.')[1])).sub ?? '';
   } catch {
     return;
   }
@@ -181,43 +146,32 @@ export async function storeCurrentUser(): Promise<void> {
     const users: ApiUser[] = await res.json().catch(() => []);
     const me = users.find((u) => u.username === username);
     if (!me) return;
-    localStorage.setItem("is_admin", me.is_admin ? "true" : "false");
-    localStorage.setItem("user_id", String(me.user_id ?? ""));
-    localStorage.setItem("username", me.username || "");
-    localStorage.setItem("full_name", me.full_name || "");
-    localStorage.setItem("email", me.email || "");
+    useAuth.getState().setUser(me);
   } catch {
-    // non-admin user without /users/me — defaults remain empty
+    // non-admin user without /users/me
   }
 }
 
 export function logout(): void {
-  setToken(null);
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("is_admin");
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("username");
-    localStorage.removeItem("full_name");
-    localStorage.removeItem("email");
-  }
+  useAuth.getState().logout();
 }
 
-export type Collection = "artists" | "albums" | "genres" | "tracks" | "users";
+export type Collection = 'artists' | 'albums' | 'genres' | 'tracks' | 'users';
 
 function collectionPath(col: Collection): string {
   const map: Record<Collection, string> = {
-    artists: "/artists/",
-    albums: "/albums/",
-    genres: "/genres/",
-    tracks: "/tracks",
-    users: "/users",
+    artists: '/artists/',
+    albums: '/albums/',
+    genres: '/genres/',
+    tracks: '/tracks',
+    users: '/users',
   };
   return map[col];
 }
 
 function itemPath(col: Collection, id: number): string {
   const base = collectionPath(col);
-  return base.endsWith("/") ? `${base}${id}` : `${base}/${id}`;
+  return base.endsWith('/') ? `${base}${id}` : `${base}/${id}`;
 }
 
 export async function getAll<T = unknown>(col: Collection, skip = 0, limit = 9999): Promise<T[]> {
@@ -242,14 +196,21 @@ export async function getTotalCountProtected(col: Collection): Promise<number> {
   return all.length;
 }
 
+export async function updateMyProfile(fullName: string, email: string): Promise<ApiUser> {
+  return request<ApiUser>('/users/me', {
+    method: 'PATCH',
+    body: JSON.stringify({ full_name: fullName, email }),
+  }, true);
+}
+
 export async function changeMyPassword(currentPassword: string, newPassword: string): Promise<void> {
   await request<void>(
-    "/users/me/password",
+    '/users/me/password',
     {
-      method: "PATCH",
+      method: 'PATCH',
       body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
     },
-    true
+    true,
   );
 }
 
@@ -257,10 +218,10 @@ export async function resetUserPassword(userId: number, newPassword: string): Pr
   await request<void>(
     `/users/${userId}/password`,
     {
-      method: "PATCH",
+      method: 'PATCH',
       body: JSON.stringify({ new_password: newPassword }),
     },
-    true
+    true,
   );
 }
 
@@ -279,39 +240,39 @@ export async function getByIdProtected<T = unknown>(col: Collection, id: number)
 
 export async function create<T = unknown>(col: Collection, data: unknown): Promise<T> {
   return request<T>(collectionPath(col), {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 export async function update<T = unknown>(col: Collection, id: number, data: unknown): Promise<T> {
   return request<T>(itemPath(col, id), {
-    method: "PATCH",
+    method: 'PATCH',
     body: JSON.stringify(data),
   });
 }
 
 export async function remove(col: Collection, id: number): Promise<void> {
-  await request<void>(itemPath(col, id), { method: "DELETE" });
+  await request<void>(itemPath(col, id), { method: 'DELETE' });
 }
 
 async function getAuthHeaders(): Promise<Record<string, string>> {
   const headers: Record<string, string> = {};
-  const token = getToken();
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const token = await getToken();
+  if (token) headers['Authorization'] = `Bearer ${token}`;
   return headers;
 }
 
 export async function uploadImage(
-  col: "artists" | "albums",
+  col: 'artists' | 'albums',
   id: number,
-  file: File
+  file: any,
 ): Promise<{ ImageUrl: string }> {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file as Blob);
   const headers = await getAuthHeaders();
   const res = await fetch(`${API_ROOT}/api/v1/${col}/${id}/image`, {
-    method: "POST",
+    method: 'POST',
     headers,
     body: formData,
   });
@@ -323,12 +284,12 @@ export async function uploadImage(
 }
 
 export async function fetchImageFromUrl(
-  col: "artists" | "albums",
+  col: 'artists' | 'albums',
   id: number,
-  url: string
+  url: string,
 ): Promise<{ ImageUrl: string }> {
   return request(`/${col}/${id}/fetch-image`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ url }),
   });
 }
