@@ -3,12 +3,19 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getById, remove, getToken } from "@/lib/db";
+import { getTrackById, getAlbumById, getArtistById, getGenreById, deleteTrack, getToken } from "@/lib/db";
 import { t } from "@/lib/i18n";
 import type { ApiTrack, ApiAlbum, ApiArtist, ApiGenre } from "@/lib/db";
 import DeezerPlayer from "@/components/DeezerPlayer";
 import { getIsAdmin } from "@/lib/db";
 
+/*
+  Página: Detalle de una canción.
+  Carga el track (getTrackById), su álbum (getAlbumById),
+  artista (getArtistById) y género (getGenreById) para mostrar
+  toda la información relacionada. Incluye un reproductor Deezer
+  y link al álbum/artista. El admin puede eliminar la canción.
+*/
 export default function TrackDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -24,7 +31,7 @@ export default function TrackDetail({ params }: { params: Promise<{ id: string }
   useEffect(() => {
     const loadData = async () => {
       const trackId = parseInt(id);
-      const data = await getById<ApiTrack>("tracks", trackId);
+      const data = await getTrackById(trackId);
       if (!data) {
         router.push("/tracks");
         return;
@@ -32,16 +39,16 @@ export default function TrackDetail({ params }: { params: Promise<{ id: string }
       setTrack(data);
 
       if (data.AlbumId) {
-        const alb = await getById<ApiAlbum>("albums", data.AlbumId);
+        const alb = await getAlbumById(data.AlbumId);
         setAlbum(alb);
         if (alb?.ArtistId) {
-          const art = await getById<ApiArtist>("artists", alb.ArtistId);
+          const art = await getArtistById(alb.ArtistId);
           setArtist(art);
         }
       }
 
       if (data.GenreId) {
-        const gen = await getById<ApiGenre>("genres", data.GenreId);
+        const gen = await getGenreById(data.GenreId);
         setGenre(gen);
       }
     };
@@ -49,7 +56,7 @@ export default function TrackDetail({ params }: { params: Promise<{ id: string }
   }, [id, router]);
 
   const handleDelete = async () => {
-    await remove("tracks", parseInt(id));
+    await deleteTrack(parseInt(id));
     router.push("/tracks");
   };
 

@@ -3,10 +3,17 @@
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { getAll, create } from "@/lib/db";
+import { getAllAlbums, getAllGenres, createTrack } from "@/lib/db";
 import type { ApiAlbum, ApiGenre } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Formulario para crear una nueva canción.
+  Carga álbumes (getAllAlbums) y géneros (getAllGenres) para
+  los selectores. Calcula duración en ms y bytes desde inputs
+  amigables (minutos:segundos, MB). Acepta ?albumId= para
+  preseleccionar. El Suspense envuelve por useSearchParams.
+*/
 function TrackFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -28,8 +35,8 @@ function TrackFormContent() {
 
   useEffect(() => {
     const loadData = async () => {
-      const albumList = await getAll<ApiAlbum>("albums");
-      const genreList = await getAll<ApiGenre>("genres");
+      const albumList = await getAllAlbums();
+      const genreList = await getAllGenres();
       setAlbums(albumList);
       setGenres(genreList);
 
@@ -80,7 +87,7 @@ function TrackFormContent() {
       const milliseconds = (minVal * 60 + secVal) * 1000;
       const bytes = Math.round(sizeVal * 1024 * 1024);
 
-      await create("tracks", {
+      await createTrack({
         Name: name.trim(),
         AlbumId: albumId ? parseInt(albumId) : null,
         GenreId: genreId ? parseInt(genreId) : null,

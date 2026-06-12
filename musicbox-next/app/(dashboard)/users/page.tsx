@@ -3,13 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAllProtected, getTotalCountProtected, remove, update, getIsAdmin } from "@/lib/db";
+import { getAllUsers, getUserCount, deleteUser, updateUser, getIsAdmin } from "@/lib/db";
 import type { ApiUser } from "@/lib/db";
 import Pagination from "@/components/Pagination";
 import ResetPasswordModal from "@/components/ResetPasswordModal";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Lista de usuarios (solo admin).
+  Usa getAllUsers() y getUserCount() que requieren autenticación.
+  Permite activar/desactivar, editar, eliminar y resetear
+  contraseña de cada usuario. El admin no puede auto-eliminarse
+  ni desactivarse.
+*/
 export default function UsersList() {
   const [users, setUsers] = useState<ApiUser[]>([]);
   const [page, setPage] = useState(0);
@@ -21,8 +28,8 @@ export default function UsersList() {
 
   const loadUsers = async (p: number) => {
     try {
-      const list = await getAllProtected<ApiUser>("users", p * rowsPerPage, rowsPerPage);
-      setUsers(list as ApiUser[]);
+      const list = await getAllUsers(p * rowsPerPage, rowsPerPage);
+      setUsers(list);
     } catch {
       setUsers([]);
     }
@@ -34,7 +41,7 @@ export default function UsersList() {
 
   const fetchTotal = async () => {
     try {
-      const total = await getTotalCountProtected("users");
+      const total = await getUserCount();
       setTotalCount(total);
     } catch {
       setTotalCount(0);
@@ -59,7 +66,7 @@ export default function UsersList() {
     if (!result.isConfirmed) return;
     if (!user.user_id) return;
     try {
-      await remove("users", user.user_id);
+      await deleteUser(user.user_id);
       if (users.length === 1 && page > 0) setPage(page - 1);
       else await loadUsers(page);
       setTotalCount((c) => c - 1);
@@ -71,7 +78,7 @@ export default function UsersList() {
 
   const toggleUserStatus = async (user: ApiUser) => {
     if (!user.user_id) return;
-    await update("users", user.user_id, { disabled: !user.disabled });
+    await updateUser(user.user_id, { disabled: !user.disabled });
     await loadUsers(page);
   };
 

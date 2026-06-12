@@ -3,12 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAll, getTotalCount, remove, getIsAdmin } from "@/lib/db";
+import { getAllArtists, getArtistCount, deleteArtist, getIsAdmin } from "@/lib/db";
 import type { ApiArtist } from "@/lib/db";
 import Pagination from "@/components/Pagination";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Lista de artistas con paginación.
+  Carga los artistas desde el backend según la página actual,
+  muestra el total de registros y permite al admin eliminar.
+  Los datos se piden con getAllArtists() y getArtistCount().
+  La paginación se maneja con skip/limit en la URL.
+  La eliminación usa SweetAlert2 para confirmación.
+*/
 export default function ArtistsList() {
   const [artists, setArtists] = useState<ApiArtist[]>([]);
   const [page, setPage] = useState(0);
@@ -17,7 +25,7 @@ export default function ArtistsList() {
   const isAdmin = getIsAdmin();
 
   const loadArtists = async (p: number) => {
-    const list = await getAll<ApiArtist>("artists", p * rowsPerPage, rowsPerPage);
+    const list = await getAllArtists(p * rowsPerPage, rowsPerPage);
     setArtists(list);
   };
 
@@ -26,7 +34,7 @@ export default function ArtistsList() {
   }, [page]);
 
   const fetchTotal = async () => {
-    const total = await getTotalCount("artists");
+    const total = await getArtistCount();
     setTotalCount(total);
   };
 
@@ -47,7 +55,7 @@ export default function ArtistsList() {
     });
     if (!result.isConfirmed) return;
     try {
-      await remove("artists", artist.ArtistId);
+      await deleteArtist(artist.ArtistId);
       if (artists.length === 1 && page > 0) setPage(page - 1);
       else await loadArtists(page);
       setTotalCount((c) => c - 1);

@@ -3,11 +3,19 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getById, getAll, remove, getImageUrl } from "@/lib/db";
+import { getArtistById, getAllAlbums, deleteArtist, getImageUrl } from "@/lib/db";
 import type { ApiArtist, ApiAlbum } from "@/lib/db";
 import { t } from "@/lib/i18n";
 import { getIsAdmin } from "@/lib/db";
 
+/*
+  Página: Detalle de un artista.
+  Muestra su nombre, imagen (si tiene) y una tabla con sus álbumes.
+  Carga el artista con getArtistById() y todos los álbumes con
+  getAllAlbums(), filtrando los que pertenecen a este artista.
+  El admin puede eliminar el artista desde aquí.
+  params.id se resuelve con use() (patrón Next.js 16).
+*/
 export default function ArtistDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -20,20 +28,20 @@ export default function ArtistDetail({ params }: { params: Promise<{ id: string 
 
   useEffect(() => {
     (async () => {
-      const data = await getById<ApiArtist>("artists", parseInt(id));
+      const data = await getArtistById(parseInt(id));
       if (!data) {
         router.push("/artists");
         return;
       }
       setArtist(data);
-      const allAlbums = await getAll<ApiAlbum>("albums");
+      const allAlbums = await getAllAlbums();
       const artistAlbums = allAlbums.filter((album: ApiAlbum) => album.ArtistId === parseInt(id));
       setAlbums(artistAlbums);
     })();
   }, [id, router]);
 
   const handleDelete = async () => {
-    await remove("artists", parseInt(id));
+    await deleteArtist(parseInt(id));
     router.push("/artists");
   };
 

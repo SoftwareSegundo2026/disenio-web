@@ -47,6 +47,12 @@ function PasswordInput({
   );
 }
 
+/*
+  Modal para cambiar la contraseña del usuario actual.
+  Pide contraseña actual y nueva (con confirmación).
+  Valida que coincidan y que no estén vacías antes de
+  llamar a changeMyPassword(). Muestra error si falla.
+*/
 export default function ChangePasswordModal({ open, onClose }: ChangePasswordModalProps) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

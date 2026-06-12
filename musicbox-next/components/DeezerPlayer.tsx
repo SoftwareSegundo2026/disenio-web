@@ -9,6 +9,13 @@ interface DeezerPlayerProps {
   artistName?: string | null;
 }
 
+/*
+  Reproductor embebido de Deezer.
+  Busca la canción en Deezer usando searchDeezerTrack() y
+  muestra un widget de reproducción si la encuentra.
+  Recibe trackName y opcionalmente artistName para mejorar
+  la búsqueda. Maneja estados de carga y error.
+*/
 export default function DeezerPlayer({ trackName, artistName }: DeezerPlayerProps) {
   const [track, setTrack] = useState<DeezerTrackResult | null>(null);
   const [loading, setLoading] = useState(false);

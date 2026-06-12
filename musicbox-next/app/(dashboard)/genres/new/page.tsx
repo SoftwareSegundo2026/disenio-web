@@ -3,9 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { create } from "@/lib/db";
+import { createGenre } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Formulario para crear un nuevo género.
+  Solo requiere el nombre. Al enviar, usa createGenre()
+  y redirige a la lista de géneros.
+*/
 export default function NewGenre() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -24,7 +29,7 @@ export default function NewGenre() {
     setIsSubmitting(true);
 
     try {
-      await create("genres", { Name: name.trim() });
+      await createGenre({ Name: name.trim() });
       router.push("/genres");
     } catch {
       setError(t("genres.new.error"));

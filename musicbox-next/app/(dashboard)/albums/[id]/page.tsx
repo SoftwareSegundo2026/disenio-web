@@ -3,11 +3,18 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getById, getAll, remove, getImageUrl } from "@/lib/db";
+import { getAlbumById, getArtistById, getAllTracks, getAllGenres, deleteAlbum, getImageUrl } from "@/lib/db";
 import type { ApiAlbum, ApiArtist, ApiTrack, ApiGenre } from "@/lib/db";
 import { t } from "@/lib/i18n";
 import { getIsAdmin } from "@/lib/db";
 
+/*
+  Página: Detalle de un álbum con su lista de canciones.
+  Carga el álbum (getAlbumById), el artista relacionado
+  (getArtistById) y todas las canciones (getAllTracks)
+  para filtrar las que pertenecen a este álbum.
+  El admin puede eliminar el álbum.
+*/
 export default function AlbumDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -22,7 +29,7 @@ export default function AlbumDetail({ params }: { params: Promise<{ id: string }
 
   useEffect(() => {
     (async () => {
-      const data = await getById("albums", parseInt(id)) as ApiAlbum;
+      const data = await getAlbumById(parseInt(id));
       if (!data) {
         router.push("/albums");
         return;
@@ -30,15 +37,15 @@ export default function AlbumDetail({ params }: { params: Promise<{ id: string }
       setAlbum(data);
 
       if (data.ArtistId) {
-        const art = await getById("artists", data.ArtistId) as ApiArtist;
+        const art = await getArtistById(data.ArtistId);
         setArtist(art);
       }
 
-      const allTracks = await getAll("tracks") as ApiTrack[];
+      const allTracks = await getAllTracks();
       const albumTracks = allTracks.filter((track: ApiTrack) => track.AlbumId === parseInt(id));
       setTracks(albumTracks);
 
-      const allGenres = await getAll("genres") as ApiGenre[];
+      const allGenres = await getAllGenres();
       const gMap: Record<number, string> = {};
       allGenres.forEach((g: ApiGenre) => {
         gMap[g.GenreId] = g.Name;
@@ -48,7 +55,7 @@ export default function AlbumDetail({ params }: { params: Promise<{ id: string }
   }, [id, router]);
 
   const handleDelete = async () => {
-    await remove("albums", parseInt(id));
+    await deleteAlbum(parseInt(id));
     router.push("/albums");
   };
 

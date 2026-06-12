@@ -11,6 +11,11 @@ interface ResetPasswordModalProps {
   userName: string;
 }
 
+/*
+  Modal para resetear la contraseña de un usuario (solo admin).
+  Recibe userId y userName para mostrar contexto. Al confirmar,
+  llama a resetUserPassword(). Muestra error si falla.
+*/
 export default function ResetPasswordModal({ open, onClose, userId, userName }: ResetPasswordModalProps) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

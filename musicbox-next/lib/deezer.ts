@@ -10,6 +10,13 @@ export interface DeezerSearchResponse {
   total: number;
 }
 
+/*
+  searchDeezerTrack: busca una canción en la API de Deezer
+  usando el proxy interno (/api/deezer/search) para evitar
+  CORS. Recibe nombre de canción y opcionalmente artista
+  para refinar la búsqueda. Devuelve el primer resultado
+  o null si no encuentra.
+*/
 export async function searchDeezerTrack(
   trackName: string,
   artistName?: string | null

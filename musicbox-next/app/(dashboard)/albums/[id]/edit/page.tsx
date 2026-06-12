@@ -3,10 +3,16 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getById, getAll, update, getImageUrl, uploadImage } from "@/lib/db";
+import { getAlbumById, getAllArtists, updateAlbum, getImageUrl, uploadAlbumImage } from "@/lib/db";
 import type { ApiAlbum, ApiArtist } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Editar un álbum existente.
+  Carga datos actuales (getAlbumById) y lista de artistas
+  (getAllArtists) para el selector. Al enviar, actualiza
+  con updateAlbum() y opcionalmente sube imagen.
+*/
 export default function EditAlbum({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -23,7 +29,7 @@ export default function EditAlbum({ params }: { params: Promise<{ id: string }> 
 
   useEffect(() => {
     (async () => {
-      const data = await getById("albums", parseInt(id)) as ApiAlbum;
+      const data = await getAlbumById(parseInt(id));
       if (!data) {
         router.push("/albums");
         return;
@@ -32,7 +38,7 @@ export default function EditAlbum({ params }: { params: Promise<{ id: string }> 
       setArtistId(data.ArtistId?.toString() || "");
       setImageUrl(data.ImageUrl || null);
 
-      const list = await getAll("artists") as ApiArtist[];
+      const list = await getAllArtists();
       setArtists(list);
     })();
   }, [id, router]);
@@ -62,10 +68,10 @@ export default function EditAlbum({ params }: { params: Promise<{ id: string }> 
     setIsSubmitting(true);
 
     try {
-      await update("albums", parseInt(id), { Title: title.trim(), ArtistId: artistId ? parseInt(artistId) : undefined });
+      await updateAlbum(parseInt(id), { Title: title.trim(), ArtistId: artistId ? parseInt(artistId) : undefined });
 
       if (imageFile) {
-        await uploadImage("albums", parseInt(id), imageFile);
+        await uploadAlbumImage(parseInt(id), imageFile);
       }
 
       router.push("/albums");

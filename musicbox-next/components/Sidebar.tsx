@@ -7,6 +7,13 @@ import { config } from "@/lib/config";
 import { getToken, getIsAdmin } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Barra lateral de navegación.
+  Muestra enlaces a las secciones principales (dashboard,
+  artistas, álbumes, tracks, géneros, usuarios).
+  Los enlaces a crear y la sección de usuarios solo aparecen
+  si el usuario es admin. Resalta la ruta activa.
+*/
 export default function Sidebar() {
   const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);

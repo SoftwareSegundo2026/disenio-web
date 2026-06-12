@@ -3,12 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAll, getTotalCount, remove, getIsAdmin } from "@/lib/db";
+import { getAllTracks, getTrackCount, deleteTrack, getIsAdmin } from "@/lib/db";
 import type { ApiTrack } from "@/lib/db";
 import Pagination from "@/components/Pagination";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Lista de canciones con paginación.
+  Carga tracks (getAllTracks), muestra total (getTrackCount)
+  y permite eliminar al admin. Muestra album, género, duración
+  y precio de cada canción.
+*/
 export default function TracksList() {
   const [tracks, setTracks] = useState<ApiTrack[]>([]);
   const [page, setPage] = useState(0);
@@ -17,7 +23,7 @@ export default function TracksList() {
   const isAdmin = getIsAdmin();
 
   const loadTracks = async (p: number) => {
-    const list = await getAll<ApiTrack>("tracks", p * rowsPerPage, rowsPerPage);
+    const list = await getAllTracks(p * rowsPerPage, rowsPerPage);
     setTracks(list);
   };
 
@@ -26,7 +32,7 @@ export default function TracksList() {
   }, [page]);
 
   const fetchTotal = async () => {
-    const total = await getTotalCount("tracks");
+    const total = await getTrackCount();
     setTotalCount(total);
   };
 
@@ -55,7 +61,7 @@ export default function TracksList() {
     });
     if (!result.isConfirmed) return;
     try {
-      await remove("tracks", track.TrackId);
+      await deleteTrack(track.TrackId);
       if (tracks.length === 1 && page > 0) setPage(page - 1);
       else await loadTracks(page);
       setTotalCount((c) => c - 1);

@@ -3,9 +3,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { create, getTokenValue } from "@/lib/db";
+import { createUser, getTokenValue } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Registro de nuevos usuarios.
+  Requiere token JWT de un admin (getTokenValue) para poder
+  crear. Envía los datos con createUser(). Valida que los
+  campos estén completos y que las contraseñas coincidan.
+  Muestra mensaje de éxito y redirige al login.
+*/
 export default function Register() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
@@ -49,7 +56,7 @@ export default function Register() {
         return;
       }
 
-      await create("users", {
+      await createUser({
         username: username.trim().toLowerCase(),
         email: email.trim().toLowerCase(),
         full_name: fullName.trim(),

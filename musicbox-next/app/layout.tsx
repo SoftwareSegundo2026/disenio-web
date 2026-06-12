@@ -28,6 +28,13 @@ export const metadata = {
   description: "Administrative Portal for Catalog Management",
 };
 
+/*
+  Layout raíz de la aplicación.
+  Configura las fuentes (Sora para títulos, Inter para cuerpo,
+  JetBrains Mono para código) y las variables CSS. Renderiza
+  el html y body base con las clases de fuentes y el children.
+  También carga los estilos globales (globals.css).
+*/
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html

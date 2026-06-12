@@ -3,10 +3,17 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getById, getAll, update } from "@/lib/db";
+import { getTrackById, getAllAlbums, getAllGenres, updateTrack } from "@/lib/db";
 import type { ApiTrack, ApiAlbum, ApiGenre } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Editar una canción existente.
+  Carga datos actuales (getTrackById) y listas de álbumes y
+  géneros. Convierte Milliseconds a minutos:segundos y Bytes
+  a MB para mostrar en inputs amigables. Al enviar, actualiza
+  con updateTrack().
+*/
 export default function EditTrack({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -28,7 +35,7 @@ export default function EditTrack({ params }: { params: Promise<{ id: string }> 
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await getById<ApiTrack>("tracks", parseInt(id));
+      const data = await getTrackById(parseInt(id));
       if (!data) {
         router.push("/tracks");
         return;
@@ -52,8 +59,8 @@ export default function EditTrack({ params }: { params: Promise<{ id: string }> 
 
       setUnitPrice(data.UnitPrice?.toString() || "0.99");
 
-      const albumList = await getAll<ApiAlbum>("albums");
-      const genreList = await getAll<ApiGenre>("genres");
+      const albumList = await getAllAlbums();
+      const genreList = await getAllGenres();
       setAlbums(albumList);
       setGenres(genreList);
     };
@@ -94,7 +101,7 @@ export default function EditTrack({ params }: { params: Promise<{ id: string }> 
       const milliseconds = (minVal * 60 + secVal) * 1000;
       const bytes = Math.round(sizeVal * 1024 * 1024);
 
-      await update("tracks", parseInt(id), {
+      await updateTrack(parseInt(id), {
         Name: name.trim(),
         AlbumId: albumId ? parseInt(albumId) : null,
         GenreId: genreId ? parseInt(genreId) : null,

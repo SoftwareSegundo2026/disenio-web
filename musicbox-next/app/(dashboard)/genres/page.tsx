@@ -3,12 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAll, getTotalCount, remove, getIsAdmin } from "@/lib/db";
+import { getAllGenres, getGenreCount, deleteGenre, getIsAdmin } from "@/lib/db";
 import type { ApiGenre } from "@/lib/db";
 import Pagination from "@/components/Pagination";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Lista de géneros musicales con paginación.
+  Carga géneros (getAllGenres), muestra total (getGenreCount)
+  y permite eliminar al admin. Los géneros no tienen imagen,
+  solo ID y nombre.
+*/
 export default function GenresList() {
   const [genres, setGenres] = useState<ApiGenre[]>([]);
   const [page, setPage] = useState(0);
@@ -17,7 +23,7 @@ export default function GenresList() {
   const isAdmin = getIsAdmin();
 
   const loadGenres = async (p: number) => {
-    const list = await getAll<ApiGenre>("genres", p * rowsPerPage, rowsPerPage);
+    const list = await getAllGenres(p * rowsPerPage, rowsPerPage);
     setGenres(list);
   };
 
@@ -26,7 +32,7 @@ export default function GenresList() {
   }, [page]);
 
   const fetchTotal = async () => {
-    const total = await getTotalCount("genres");
+    const total = await getGenreCount();
     setTotalCount(total);
   };
 
@@ -47,7 +53,7 @@ export default function GenresList() {
     });
     if (!result.isConfirmed) return;
     try {
-      await remove("genres", genre.GenreId);
+      await deleteGenre(genre.GenreId);
       if (genres.length === 1 && page > 0) setPage(page - 1);
       else await loadGenres(page);
       setTotalCount((c) => c - 1);

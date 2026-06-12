@@ -3,12 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { config } from "@/lib/config";
-import { getAll, getTotalCount, remove, getIsAdmin } from "@/lib/db";
+import { getAllAlbums, getAlbumCount, deleteAlbum, getIsAdmin } from "@/lib/db";
 import type { ApiAlbum } from "@/lib/db";
 import Pagination from "@/components/Pagination";
 import Swal from "sweetalert2";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Lista de álbumes con paginación.
+  Carga álbumes desde el backend (getAllAlbums), muestra el total
+  (getAlbumCount) y permite al admin eliminar con confirmación.
+  Cada álbum muestra nombre del artista (ArtistName).
+*/
 export default function AlbumsList() {
   const [albums, setAlbums] = useState<ApiAlbum[]>([]);
   const [page, setPage] = useState(0);
@@ -17,7 +23,7 @@ export default function AlbumsList() {
   const isAdmin = getIsAdmin();
 
   const loadAlbums = async (p: number) => {
-    const list = await getAll<ApiAlbum>("albums", p * rowsPerPage, rowsPerPage);
+    const list = await getAllAlbums(p * rowsPerPage, rowsPerPage);
     setAlbums(list);
   };
 
@@ -26,7 +32,7 @@ export default function AlbumsList() {
   }, [page]);
 
   const fetchTotal = async () => {
-    const total = await getTotalCount("albums");
+    const total = await getAlbumCount();
     setTotalCount(total);
   };
 
@@ -47,7 +53,7 @@ export default function AlbumsList() {
     });
     if (!result.isConfirmed) return;
     try {
-      await remove("albums", album.AlbumId);
+      await deleteAlbum(album.AlbumId);
       if (albums.length === 1 && page > 0) setPage(page - 1);
       else await loadAlbums(page);
       setTotalCount((c) => c - 1);

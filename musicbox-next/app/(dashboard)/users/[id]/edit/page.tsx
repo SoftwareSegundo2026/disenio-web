@@ -3,10 +3,17 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getAllProtected, update } from "@/lib/db";
+import { getAllUsers, updateUser } from "@/lib/db";
 import type { ApiUser } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Editar un usuario existente (solo admin).
+  Carga todos los usuarios (getAllUsers) y encuentra el que
+  coincide con params.id para prellenar el formulario.
+  Al enviar, actualiza con updateUser().
+  El admin "admin" no puede cambiar su propio username ni estado.
+*/
 export default function EditUser({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -23,7 +30,7 @@ export default function EditUser({ params }: { params: Promise<{ id: string }> }
   useEffect(() => {
     (async () => {
       try {
-        const users = await getAllProtected<ApiUser>("users");
+        const users = await getAllUsers();
         const data = users.find((u) => u.user_id === parseInt(id));
         if (!data) {
           router.push("/users");
@@ -56,7 +63,7 @@ export default function EditUser({ params }: { params: Promise<{ id: string }> }
     setIsSubmitting(true);
 
     try {
-      await update("users", parseInt(id), {
+      await updateUser(parseInt(id), {
         username: username.trim().toLowerCase(),
         email: email.trim().toLowerCase(),
         full_name: fullName.trim(),

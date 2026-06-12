@@ -11,6 +11,13 @@ interface RequireAuthProps {
   message?: string;
 }
 
+/*
+  Componente de protección de rutas.
+  Verifica si el usuario está autenticado (getToken) y si es
+  admin (getIsAdmin). Si no cumple, muestra un mensaje con
+  SweetAlert2 en lugar del children. Sirve para envolver
+  contenido que solo deben ver usuarios autorizados.
+*/
 export default function RequireAuth({ children, adminOnly = true, message }: RequireAuthProps) {
   const token = getToken();
   const hasPermission = token && (!adminOnly || getIsAdmin());

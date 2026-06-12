@@ -3,10 +3,17 @@
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { getAll, create } from "@/lib/db";
+import { getAllArtists, createAlbum } from "@/lib/db";
 import type { ApiArtist, ApiAlbum } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Formulario para crear un nuevo álbum.
+  Muestra un selector de artistas (cargado con getAllArtists).
+  Al enviar, crea el álbum con createAlbum() y redirige
+  a su detalle. Acepta ?artistId= en la URL para preseleccionar.
+  El Suspense envuelve el contenido por el uso de useSearchParams.
+*/
 function AlbumFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,7 +27,7 @@ function AlbumFormContent() {
 
   useEffect(() => {
     (async () => {
-      const list = await getAll("artists") as ApiArtist[];
+      const list = await getAllArtists();
       setArtists(list);
 
       if (preselectedArtistId) {
@@ -48,7 +55,7 @@ function AlbumFormContent() {
     setIsSubmitting(true);
 
     try {
-      const newAlbum = await create("albums", { Title: title.trim(), ArtistId: artistId ? parseInt(artistId) : undefined }) as ApiAlbum;
+      const newAlbum = await createAlbum({ Title: title.trim(), ArtistId: artistId ? parseInt(artistId) : undefined });
       router.push(`/albums/${newAlbum.AlbumId}`);
     } catch {
       setError(t("albums.new.error"));

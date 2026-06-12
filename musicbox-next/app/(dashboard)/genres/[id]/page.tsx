@@ -3,11 +3,17 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getById, getAll, remove } from "@/lib/db";
+import { getGenreById, getAllTracks, getAllAlbums, deleteGenre } from "@/lib/db";
 import type { ApiGenre, ApiTrack, ApiAlbum } from "@/lib/db";
 import { t } from "@/lib/i18n";
 import { getIsAdmin } from "@/lib/db";
 
+/*
+  Página: Detalle de un género con sus canciones.
+  Carga el género (getGenreById) y filtra todas las canciones
+  (getAllTracks) que pertenecen a él. También carga álbumes
+  (getAllAlbums) para mostrar el nombre del álbum de cada track.
+*/
 export default function GenreDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -21,18 +27,18 @@ export default function GenreDetail({ params }: { params: Promise<{ id: string }
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getById<ApiGenre>("genres", parseInt(id));
+      const data = await getGenreById(parseInt(id));
       if (!data) {
         router.push("/genres");
         return;
       }
       setGenre(data);
 
-      const allTracks = await getAll<ApiTrack>("tracks");
+      const allTracks = await getAllTracks();
       const genreTracks = allTracks.filter((track: ApiTrack) => track.GenreId === parseInt(id));
       setTracks(genreTracks);
 
-      const allAlbums = await getAll<ApiAlbum>("albums");
+      const allAlbums = await getAllAlbums();
       const aMap: Record<string, string> = {};
       allAlbums.forEach((alb: ApiAlbum) => {
         aMap[alb.AlbumId] = alb.Title;
@@ -43,7 +49,7 @@ export default function GenreDetail({ params }: { params: Promise<{ id: string }
   }, [id, router]);
 
   const handleDelete = async () => {
-    await remove("genres", parseInt(id));
+    await deleteGenre(parseInt(id));
     router.push("/genres");
   };
 

@@ -3,9 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { create, getTokenValue } from "@/lib/db";
+import { createUser, getTokenValue } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Formulario para crear un nuevo usuario (solo admin).
+  Requiere token (getTokenValue) para poder crear. Envía
+  username, email, full_name y password con createUser().
+  Redirige a la lista al completar.
+*/
 export default function NewUser() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -38,7 +44,7 @@ export default function NewUser() {
     setIsSubmitting(true);
 
     try {
-      await create("users", {
+      await createUser({
         username: username.trim().toLowerCase(),
         email: email.trim().toLowerCase(),
         full_name: fullName.trim(),

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { getAll, getAllProtected, getToken, getIsAdmin, getActivities, getStoredFullName } from "@/lib/db";
+import { getAllArtists, getAllAlbums, getAllTracks, getAllUsers, getToken, getIsAdmin, getActivities, getStoredFullName } from "@/lib/db";
 import { t, formatDate } from "@/lib/i18n";
 import type { ApiArtist, ApiAlbum, ApiTrack, ApiUser, ApiActivity } from "@/lib/db";
 
@@ -24,6 +24,14 @@ interface ActivityDisplay {
   bgClass: string;
 }
 
+/*
+  Página: Dashboard principal.
+  Muestra estadísticas (total artistas, álbumes, tracks,
+  usuarios activos), almacenamiento usado, actividades
+  recientes y accesos rápidos (crear artista, subir track,
+  crear álbum). Los datos se cargan con Promise.all para
+  paralelizar las llamadas al backend.
+*/
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -45,15 +53,15 @@ export default function Dashboard() {
 
   const loadData = useCallback(async (isAdminUser: boolean) => {
     const [artists, albums, tracks] = await Promise.all([
-      getAll<ApiArtist>("artists"),
-      getAll<ApiAlbum>("albums"),
-      getAll<ApiTrack>("tracks"),
+      getAllArtists(),
+      getAllAlbums(),
+      getAllTracks(),
     ]);
 
     let usersCount = 0;
     if (isAdminUser) {
       try {
-        const users = await getAllProtected<ApiUser>("users");
+        const users = await getAllUsers();
         usersCount = users.filter((u) => !u.disabled).length;
       } catch {
         usersCount = 0;

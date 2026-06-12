@@ -13,6 +13,14 @@ interface HeaderProps {
   onSearch?: (value: string) => void;
 }
 
+/*
+  Barra superior de la aplicación.
+  Muestra el nombre de la app, estado de autenticación,
+  y botones de login/logout. Cuando el usuario está logueado,
+  muestra un menú (UserMenu) con opciones de perfil y cambio
+  de contraseña. También incluye modales de login, perfil y
+  cambio de contraseña.
+*/
 export default function Header({ onSearch }: HeaderProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");

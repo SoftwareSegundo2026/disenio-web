@@ -9,6 +9,12 @@ interface UserMenuProps {
   onChangePassword: () => void;
 }
 
+/*
+  Menú desplegable del usuario (avatar + nombre).
+  Muestra opciones de perfil y cambio de contraseña.
+  Se cierra al hacer clic fuera (useRef + click handler).
+  isAdmin controla si se muestran opciones de admin.
+*/
 export default function UserMenu({ isAdmin, onProfile, onChangePassword }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

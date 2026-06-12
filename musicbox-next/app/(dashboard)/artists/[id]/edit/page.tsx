@@ -3,10 +3,16 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getById, update, getImageUrl, uploadImage } from "@/lib/db";
+import { getArtistById, updateArtist, getImageUrl, uploadArtistImage } from "@/lib/db";
 import type { ApiArtist } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Editar un artista existente.
+  Carga los datos actuales con getArtistById() para prellenar
+  el formulario. Al enviar, actualiza con updateArtist() y
+  opcionalmente sube una nueva imagen con uploadArtistImage().
+*/
 export default function EditArtist({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -21,7 +27,7 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
 
   useEffect(() => {
     (async () => {
-      const data = await getById<ApiArtist>("artists", parseInt(id));
+      const data = await getArtistById(parseInt(id));
       if (!data) {
         router.push("/artists");
         return;
@@ -51,10 +57,10 @@ export default function EditArtist({ params }: { params: Promise<{ id: string }>
     setIsSubmitting(true);
 
     try {
-      await update<ApiArtist>("artists", parseInt(id), { Name: name.trim() });
+      await updateArtist(parseInt(id), { Name: name.trim() });
 
       if (imageFile) {
-        await uploadImage("artists", parseInt(id), imageFile);
+        await uploadArtistImage(parseInt(id), imageFile);
       }
 
       router.push("/artists");

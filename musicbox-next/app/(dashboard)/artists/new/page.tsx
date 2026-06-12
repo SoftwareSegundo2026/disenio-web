@@ -3,9 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { create } from "@/lib/db";
+import { createArtist } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Formulario para crear un nuevo artista.
+  Envía solo el nombre (Name) al backend con createArtist().
+  Al crear, redirige a la lista de artistas.
+  Solo accesible para administradores.
+*/
 export default function NewArtist() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -24,7 +30,7 @@ export default function NewArtist() {
     setIsSubmitting(true);
 
     try {
-      await create("artists", { Name: name.trim() });
+      await createArtist({ Name: name.trim() });
       router.push("/artists");
     } catch {
       setError(t("artists.new.error"));

@@ -12,9 +12,17 @@ interface LoginModalProps {
   onLogin: () => void;
 }
 
+/*
+  Modal de inicio de sesión.
+  Formulario de usuario/contraseña que llama a loginApi().
+  Maneja estados de carga y error. Al iniciar sesión con
+  éxito, dispatchea un evento "auth:login" para que el resto
+  de la app reaccione y dispara el callback onLogin.
+*/
 export default function LoginModal({ open, onClose, onLogin }: LoginModalProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -84,14 +92,25 @@ export default function LoginModal({ open, onClose, onLogin }: LoginModalProps) 
             <label htmlFor="modal-pass" className="block text-sm font-semibold text-on-surface">
               {t("login.password_label")}
             </label>
-            <input
-              type="password"
-              id="modal-pass"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all"
-              placeholder={t("login.password_placeholder")}
-            />
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                id="modal-pass"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-surface-high border border-outline-variant/30 rounded-lg px-4 py-2 pr-10 text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all"
+                placeholder={t("login.password_placeholder")}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">
+                  {showPass ? "visibility_off" : "visibility"}
+                </span>
+              </button>
+            </div>
           </div>
 
           {error && <p className="text-error-vibrant text-xs text-center">{error}</p>}

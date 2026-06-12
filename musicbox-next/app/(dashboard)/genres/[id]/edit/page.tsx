@@ -3,10 +3,15 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getById, update } from "@/lib/db";
+import { getGenreById, updateGenre } from "@/lib/db";
 import type { ApiGenre } from "@/lib/db";
 import { t } from "@/lib/i18n";
 
+/*
+  Página: Editar un género existente.
+  Carga datos actuales (getGenreById) y al enviar actualiza
+  con updateGenre(). Solo permite cambiar el nombre.
+*/
 export default function EditGenre({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -18,7 +23,7 @@ export default function EditGenre({ params }: { params: Promise<{ id: string }> 
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getById<ApiGenre>("genres", parseInt(id));
+      const data = await getGenreById(parseInt(id));
       if (!data) {
         router.push("/genres");
         return;
@@ -40,7 +45,7 @@ export default function EditGenre({ params }: { params: Promise<{ id: string }> 
     setIsSubmitting(true);
 
     try {
-      await update("genres", parseInt(id), { Name: name.trim() });
+      await updateGenre(parseInt(id), { Name: name.trim() });
       router.push("/genres");
     } catch {
       setError(t("genres.edit.error"));

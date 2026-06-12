@@ -7,6 +7,13 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
+/*
+  Componente reutilizable de paginación.
+  Calcula el total de páginas desde totalCount / rowsPerPage,
+  muestra la página actual y botones Anterior/Siguiente.
+  Si hay muchas páginas, también muestra atajos (1...N).
+  onPageChange(page) notifica al padre el cambio de página.
+*/
 export default function Pagination({ page, totalCount, rowsPerPage, onPageChange }: PaginationProps) {
   const pageCount = Math.max(1, Math.ceil(totalCount / rowsPerPage));
   if (totalCount === 0) return null;

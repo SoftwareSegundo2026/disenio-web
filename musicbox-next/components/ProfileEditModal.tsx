@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { update, getStoredUserId, getStoredFullName } from "@/lib/db";
+import { updateUser, getStoredUserId, getStoredFullName } from "@/lib/db";
 
 function getStoredEmail(): string {
   if (typeof window === "undefined") return "";
@@ -14,6 +14,12 @@ interface ProfileEditModalProps {
   onSaved: () => void;
 }
 
+/*
+  Modal para editar el perfil del usuario logueado.
+  Muestra nombre completo y email precargados desde
+  localStorage. Al guardar, llama a updateUser() y
+  actualiza localStorage con los nuevos valores.
+*/
 export default function ProfileEditModal({ open, onClose, onSaved }: ProfileEditModalProps) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -52,7 +58,7 @@ export default function ProfileEditModal({ open, onClose, onSaved }: ProfileEdit
     setIsSubmitting(true);
 
     try {
-      await update("users", userId, {
+      await updateUser(userId, {
         full_name: fullName.trim(),
         email: email.trim().toLowerCase(),
       });
