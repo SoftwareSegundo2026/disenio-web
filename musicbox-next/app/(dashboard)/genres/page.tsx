@@ -16,6 +16,7 @@ import { t } from "@/lib/i18n";
   solo ID y nombre.
 */
 export default function GenresList() {
+  console.info("Rendering GenresList");
   const [genres, setGenres] = useState<ApiGenre[]>([]);
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
