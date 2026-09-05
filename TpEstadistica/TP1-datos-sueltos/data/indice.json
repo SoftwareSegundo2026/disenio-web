@@ -1,0 +1,13 @@
+{
+  "id": "indice-datos-sueltos",
+  "titulo": "Datasets de datos sueltos",
+  "descripcion": "Conjuntos de datos no agrupados para calcular medidas de tendencia central, dispersión y posición.",
+  "datasets": [
+    { "id": "edades-alumnos", "ruta": "/data/edades-alumnos.json", "unidad": "años" },
+    { "id": "notas-examen", "ruta": "/data/notas-examen.json", "unidad": "puntos" },
+    { "id": "alturas", "ruta": "/data/alturas.json", "unidad": "cm" },
+    { "id": "ventas-diarias", "ruta": "/data/ventas-diarias.json", "unidad": "unidades" },
+    { "id": "horas-estudio", "ruta": "/data/horas-estudio.json", "unidad": "horas" },
+    { "id": "tiempos-espera", "ruta": "/data/tiempos-espera.json", "unidad": "minutos" }
+  ]
+}

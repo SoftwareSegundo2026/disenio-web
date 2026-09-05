@@ -1,0 +1,33 @@
+{
+  "id": "horas-estudio",
+  "titulo": "Horas de estudio semanales",
+  "descripcion": "Horas dedicadas al estudio en una semana por 25 alumnos.",
+  "unidad": "horas",
+  "valores": [
+    2,
+    2,
+    2,
+    3,
+    4,
+    4,
+    5,
+    6,
+    7,
+    8,
+    8,
+    9,
+    11,
+    11,
+    11,
+    13,
+    14,
+    16,
+    16,
+    17,
+    18,
+    18,
+    19,
+    19,
+    20
+  ]
+}
