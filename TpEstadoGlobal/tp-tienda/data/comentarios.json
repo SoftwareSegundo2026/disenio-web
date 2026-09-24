@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Muy buen trabajo práctico",
+    "detail": "Me encantó usar Zustand para el carrito. El código quedó claro y la persistencia funciona perfecto.",
+    "createdAt": "2025-03-10T14:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Consulta sobre el tema oscuro",
+    "detail": "¿Cómo hicieron el toggle de tema con Context? Me gustaría probar esa técnica en mi proyecto.",
+    "createdAt": "2025-03-12T09:15:00.000Z"
+  }
+]

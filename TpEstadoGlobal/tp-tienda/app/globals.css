@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/*
+  Tema claro/oscuro con Tailwind v4.
+  La clase `.dark` se aplica sobre <html> desde theme-context.tsx.
+  Con @custom-variant le decimos a Tailwind que use la clase .dark
+  para activar las variantes `dark:` en los estilos.
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-background: #ffffff;
+  --color-foreground: #111827;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100vh;
+}
+
+.dark body {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+/* Transición suave al cambiar de tema */
+body,
+header,
+main,
+footer,
+div,
+section,
+nav,
+a {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}

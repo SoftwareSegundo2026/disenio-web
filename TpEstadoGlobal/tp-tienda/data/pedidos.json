@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "customer": {
+      "nombre": "Juan Pérez",
+      "email": "juan@example.com",
+      "direccion": "Av. Siempreviva 742"
+    },
+    "items": [
+      {
+        "product": {
+          "id": 1,
+          "title": "iPhone 9",
+          "price": 549,
+          "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
+        },
+        "quantity": 1
+      }
+    ],
+    "total": 549,
+    "createdAt": "2025-03-10T18:00:00.000Z"
+  }
+]
